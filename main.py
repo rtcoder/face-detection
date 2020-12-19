@@ -8,11 +8,6 @@ import os
 def rotate_and_detect_faces(image):
     height, width, channels = image.shape
     locations = []
-    face_loc_0 = face_recognition.face_locations(image)
-
-    # (top, right, bottom, left)
-    for location in face_loc_0:
-        locations.append(location)
 
     image_rotated_90degrees = cv2.rotate(image, cv2.cv2.ROTATE_90_CLOCKWISE)
     face_loc_90 = face_recognition.face_locations(image_rotated_90degrees)
@@ -35,7 +30,15 @@ def rotate_and_detect_faces(image):
         new_location = rotate_utils.map_rotated_location_270deg(location, width, height)
         locations.append(new_location)
 
-    return locations, image
+    return locations
+
+
+def detect_faces(image):
+    face_loc = face_recognition.face_locations(image)
+    if len(face_loc) == 0:
+        face_loc = rotate_and_detect_faces(image)
+
+    return face_loc
 
 
 images = []
@@ -44,7 +47,7 @@ for file in os.listdir(imgDir):
     print(file)
     img = face_recognition.load_image_file('img/' + file)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    faceLoc, img = rotate_and_detect_faces(img)
+    faceLoc = detect_faces(img)
     print('ok')
     print(faceLoc)
     for loc in faceLoc:
