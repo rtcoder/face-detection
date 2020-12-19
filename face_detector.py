@@ -31,9 +31,9 @@ def rotate_and_detect_faces(image):
     return locations
 
 
-def detect_faces(image):
+def detect_faces(image, rotate_and_detect):
     face_loc = face_recognition.face_locations(image)
-    if len(face_loc) == 0:
+    if len(face_loc) == 0 and rotate_and_detect == 1:
         face_loc = rotate_and_detect_faces(image)
 
     return face_loc

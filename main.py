@@ -1,27 +1,31 @@
 import cv2
-import face_recognition
-import face_detector
 import os
 import sys
+import face_recognition
+import face_detector
+import help
+import arguments
 
 if len(sys.argv) < 2:
-    print('Usage: main.py <image-to-test> [<cli-only=1>]')
+    print('Usage: main.py <file>')
+    print('Use: -h or --help for more information')
     exit(1)
 
-if len(sys.argv) == 3:
-    cliOnly = int(sys.argv[2])
-else:
-    cliOnly = 1
+if sys.argv[1] == '-h' or sys.argv[1] == '--help':
+    help.print_help()
 
 filepath = sys.argv[1]
+options = sys.argv[2:]
+cliOnly = arguments.is_cli_only(options)
+rotateAndDetect = arguments.rotate_image(options)
 
 if not os.path.isfile(filepath):
-    print("File not accessible")
+    print("File " + filepath + " not accessible")
     exit(1)
 
 img = face_recognition.load_image_file(filepath)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-faceLoc = face_detector.detect_faces(img)
+faceLoc = face_detector.detect_faces(img, rotateAndDetect)
 
 if cliOnly == 0:
     for loc in faceLoc:

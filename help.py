@@ -1,0 +1,12 @@
+def print_help():
+    print('Usage: main.py <file> [options]')
+    print('Options available:')
+    print('--help or -h\t\tShows this info')
+    print('')
+    print('--cli or -c\t\tDefault 1, Values 1 or 0. Turns on/off CLI mode.')
+    print('           \t\t1 shows only face locations,')
+    print('           \t\t0 displays window with rectangle on detected faces')
+    print('')
+    print('--rotate or -r\t\tDefault 1. Values 1 or 0')
+    print('            \t\tif 1 then image is rotated to find face when')
+    print('            \t\tat first time no face is detected')
