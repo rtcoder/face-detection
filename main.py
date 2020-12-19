@@ -33,5 +33,5 @@ if cliOnly == 0:
 
     cv2.imshow(filepath, img)
     cv2.waitKey(0)
-else:
-    print(faceLoc)
+
+print(faceLoc)
